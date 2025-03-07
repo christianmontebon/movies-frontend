@@ -21,7 +21,7 @@ function MoviePage() {
 
   useEffect(() => {
     axiosInstance
-      .get("/movies")
+      .get("/movies/")
       .then((response) => {
         setMovieCards(response.data as Movie[]);
       })
@@ -35,6 +35,7 @@ function MoviePage() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("accessToken");
     navigate('/'); // Navigate to the login page
   };
 

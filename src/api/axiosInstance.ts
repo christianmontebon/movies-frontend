@@ -5,6 +5,7 @@ const axiosInstance = axios.create({
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json",
     },
 });
 
@@ -13,7 +14,7 @@ axiosInstance.interceptors.request.use(
         const token = localStorage.getItem("accessToken");
         if (token) {
             if (config.headers) {
-                config.headers.Authorization = `Bearer ${token}`;
+                config.headers.Authorization = `Token ${token}`;
             }
         }
         return config;
@@ -31,7 +32,7 @@ axiosInstance.interceptors.response.use(
                 console.warn("Unauthorized! Redirecting to login...");
                 localStorage.removeItem("accessToken");
                 localStorage.clear()
-                window.location.href = "/SignUpPage";
+                window.location.href = "/login";
             }
         }
         return Promise.reject(error);

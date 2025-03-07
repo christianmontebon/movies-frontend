@@ -31,8 +31,8 @@ const LoginPage: React.FC = () => {
         }
       );
 
-      if (response.data.success) {
-        console.log('Login successful!', response.data.token);
+      if (response.data.token) {
+        localStorage.setItem('accessToken', response.data.token);
         navigate('/movies'); // Navigate to the MoviePage component
       } else {
         alert(response.data.message || 'Invalid login credentials');
