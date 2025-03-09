@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Search, User, LogOut } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from "./api/axiosInstance";
+import { AuthUser } from './LoginPage';
 
 
 
@@ -17,7 +18,7 @@ interface Movie {
   poster_image: string;
 }
 
-function MoviePage() {
+const MoviePage = ({ setAuthUser, authUser }: { setAuthUser: (auth: AuthUser) => void, authUser: AuthUser }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [movieCards, setMovieCards] = useState<Movie[]>([]);
   const navigate = useNavigate();
@@ -38,8 +39,9 @@ function MoviePage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // Remove the access token
-    navigate('/'); // Navigate to the login page
+    localStorage.clear(); // Remove the access token
+    setAuthUser(null)
+    navigate('/', {replace: true}); // Navigate to the login page
   };
 
   return (
@@ -81,7 +83,7 @@ function MoviePage() {
               <div className="bg-gray-700 rounded-full p-1">
                 <User className="h-5 w-5" />
               </div>
-              <span className="ml-2">hawirr</span>
+              <span className="ml-2">{authUser?.fullName}</span>
               <svg 
                 className={`h-4 w-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} 
                 viewBox="0 0 24 24" 
